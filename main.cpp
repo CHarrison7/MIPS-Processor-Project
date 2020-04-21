@@ -33,7 +33,6 @@ int main(int argc, char* argv[])
     std::string outfilename = am.get("output");
     std::string commandsfile = am.get("command");
     */
-    
 
     string inputfile, outputfile;
 
