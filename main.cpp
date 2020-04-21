@@ -12,38 +12,29 @@
 #include <string>
 #include <cstring>
 #include <algorithm>
-#include <ctime>
 using namespace std;
+
 
 
 
 int main(int argc, char* argv[])
 {
     
-    clock_t clock;
-    double duration;
-    clock = std::clock();
+    string inputFilePath;
+    string outputfile = "output.txt";
+
+    cout << "Please type the input file pathname exactly: " << endl;
+    cin >> inputFilePath;
+    cout << endl << inputFilePath << endl;
     
     
-  /*  if (argc < 2)
-        cout << "Format: BTree input=input1.txt output=output1.txt command=command1.txt" << endl;
-    
-    ArgumentManager am(argc, argv);
-    std::string infilename = am.get("input");
-    std::string outfilename = am.get("output");
-    std::string commandsfile = am.get("command");
-    */
-
-    string inputfile, outputfile;
-
-
-    //open the inpu˘ file & output file
+    //open the input file & output file
     ifstream fin;
-    fin.open(inputfile);
+    fin.open(inputFilePath);
     ofstream fout;
     fout.open(outputfile);
     
-    if (!fin.is_open())
+    if (!fin)
     {
         cout << "Unable to open input file" << endl;
         return 0;
@@ -54,11 +45,13 @@ int main(int argc, char* argv[])
         return 0;
     }
 
-
-    
-    cout << "thdsiuogh";
+    int registerContents[32] = {0};
     
     
+    
+    
+    
+    cout << endl << endl;
 }   //  end main
 
 
