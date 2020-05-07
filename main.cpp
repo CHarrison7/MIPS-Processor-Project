@@ -31,6 +31,8 @@ string parseLine(string line)
 
 int main(int argc, char* argv[])
 {
+    int repeat = 1;
+    while(repeat){
     
     string inputFilePath = "/Users/caleb/Development/MIPS-Processor-Project/MIPS-Processor-Project/input.txt";
     string outputfile = "output.txt";
@@ -145,23 +147,60 @@ int main(int argc, char* argv[])
             
             else if(opcode == "000000")     // R-Type instruction
             {
-                int rs, rt, rd, sa, func;
+                int rs, rt, rd;
+                string sa, func;
                 rs = stoi(binInstrucLine.substr(6, 5), 0, 2);
                 rt = stoi(binInstrucLine.substr(11, 5), 0, 2);
+                rd = stoi(binInstrucLine.substr(16, 5), 0, 2);
+                sa = binInstrucLine.substr(21, 5);
+                func = binInstrucLine.substr(26, 6);
                 //imm = stoi(binInstrucLine.substr(16, 16), 0, 2);        //  implement later
+                /*string q,w,e,r, t;
+                q = binInstrucLine.substr(6, 5);
+                w = binInstrucLine.substr(11, 5);
+                e = binInstrucLine.substr(16, 5);
+                r = binInstrucLine.substr(21, 5);
+                t = binInstrucLine.substr(26, 6);*/
                 
+                if(func == "100000")        //  ADD function
+                {
+                    registerContents[rd] = registerContents[rs] + registerContents[rt];
+                }
+                else if(func == "100010")   //  SUB function
+                {
+                    registerContents[rd] = registerContents[rs] - registerContents[rt];
+                }
+                else if(func == "101010")   // SLT
+                {
+                    if(registerContents[rs] < registerContents[rt])
+                    {
+                        registerContents[rd] = 1;
+                    }
+                    else
+                    {
+                        registerContents[rt] = 0;
+                    }
+                }
                 
+                else if(opcode == "001000")    //  opcode for I-type ADDI
+                {
+                    int rs, rt, imm;
+                    rs = stoi(binInstrucLine.substr(6, 5), 0, 2);
+                    rt = stoi(binInstrucLine.substr(11, 5), 0, 2);
+                    imm = stoi(binInstrucLine.substr(16, 16), 0, 2);
+                    
+                    registerContents[rd] = registerContents[rs] + imm;
+                }
                 
-                
-                //memoryCells[rt] = registerContents[rs];  // Mem[rt] = Reg[rs]
+                else if(opcode == "000100")     //  BEQ I-type instruction
+                {
+                    int rs, rt, imm;
+                    rs = stoi(binInstrucLine.substr(6, 5), 0, 2);
+                    rt = stoi(binInstrucLine.substr(11, 5), 0, 2);
+                    imm = stoi(binInstrucLine.substr(16, 16), 0, 2);
+                    
+                }
             }
-            
-            
-            
-            
-            
-            cout << "ihhj" << endl;
-            
         }
         didKeywordChange = false;
     }
@@ -181,7 +220,11 @@ int main(int argc, char* argv[])
 //            cout << memoryCells[i] << endl;
 //        }
     
+        cout << "Would you like to repeat? Enter '1' for YES, '0' for NO: " << endl;
+        cin >> repeat;
+        
     cout << endl << endl;
+    }
 }   //  end main
 
 
