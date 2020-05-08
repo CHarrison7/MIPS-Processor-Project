@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
     while(repeat){
     
     string inputFilePath = "/Users/caleb/Development/MIPS-Processor-Project/MIPS-Processor-Project/input.txt";
-    string outputfile = "output.txt";
+    string outputfile = "/Users/caleb/Development/MIPS-Processor-Project/MIPS-Processor-Project/output.txt";
 
     /*
     cout << "Please type the input file pathname exactly: " << endl;
@@ -43,6 +43,14 @@ int main(int argc, char* argv[])
     cout << endl << inputFilePath << endl;
     */
     
+
+        /*
+        cout << "Please type the output file pathname exactly: " << endl;
+        cin >> outputFilePath;
+        cout << endl << outputFilePath << endl;
+        */
+        
+        
     //open the input file & output file
     ifstream fin;
     fin.open(inputFilePath);
@@ -62,6 +70,9 @@ int main(int argc, char* argv[])
 
     int registerContents[32] = {0};
     int memoryCells[249] = {0};
+        int C = 0;
+        int I = 0;
+        
     
     string buffer, keyword;
     while(!fin.eof())
@@ -118,35 +129,59 @@ int main(int argc, char* argv[])
         }
         else if(keyword == "CODE"  && didKeywordChange == false)
         {
+            C++;    // increment cycle number (sets to 1 on first round)
+            I++;    // increment instuction number (1 for the first round/line)
+            fout << "C#" + to_string(C) + " I" + to_string(I) + "-IF" << endl;  // instruction fetch
             string binInstrucLine, opcode;
             stringstream iss(parsedLine);
             getline(iss, binInstrucLine, '\r');
             
             opcode = binInstrucLine.substr(0,6);
-            //cout << opcode << endl;
             
             if(opcode == "100011")     // LW instruction
             {
+                C++;
+                fout << "C#" + to_string(C) + " I" + to_string(I) + "-ID" << endl;  // instruction decode
                 int rs, rt, imm;
                 rs = stoi(binInstrucLine.substr(6, 5), 0, 2);
                 rt = stoi(binInstrucLine.substr(11, 5), 0, 2);
                 imm = stoi(binInstrucLine.substr(16, 16), 0, 2);        //  implement later
                 
+                C++;
+                fout << "C#" + to_string(C) + " I" + to_string(I) + "-EX" << endl;
                 registerContents[rt] = memoryCells[rs];  // Reg[rt] = Mem[rs]
+                
+                C++;
+                fout << "C#" + to_string(C) + " I" + to_string(I) + "-MEM" << endl;
+                
+                
+                C++;
+                fout << "C#" + to_string(C) + " I" + to_string(I) + "-WB" << endl;
+                
             }
             
             else if(opcode == "101011")     // SW instruction
             {
+                C++;
+                fout << "C#" + to_string(C) + " I" + to_string(I) + "-ID" << endl;  // instruction decode
                 int rs, rt, imm;
                 rs = stoi(binInstrucLine.substr(6, 5), 0, 2);
                 rt = stoi(binInstrucLine.substr(11, 5), 0, 2);
                 imm = stoi(binInstrucLine.substr(16, 16), 0, 2);        //  implement later
                 
+                C++;
+                fout << "C#" + to_string(C) + " I" + to_string(I) + "-EX" << endl;
+                
                 memoryCells[rt] = registerContents[rs];  // Mem[rt] = Reg[rs]
+                
+                C++;
+                fout << "C#" + to_string(C) + " I" + to_string(I) + "-MEM" << endl;
             }
             
             else if(opcode == "000000")     // R-Type instruction
             {
+                C++;
+                fout << "C#" + to_string(C) + " I" + to_string(I) + "-ID" << endl;  // instruction decode
                 int rs, rt, rd;
                 string sa, func;
                 rs = stoi(binInstrucLine.substr(6, 5), 0, 2);
@@ -164,14 +199,23 @@ int main(int argc, char* argv[])
                 
                 if(func == "100000")        //  ADD function
                 {
+                    C++;
+                    fout << "C#" + to_string(C) + " I" + to_string(I) + "-EX" << endl;
                     registerContents[rd] = registerContents[rs] + registerContents[rt];
+                    
+                    C++;
+                    fout << "C#" + to_string(C) + " I" + to_string(I) + "-WB" << endl;
                 }
                 else if(func == "100010")   //  SUB function
                 {
+                    C++;
+                    fout << "C#" + to_string(C) + " I" + to_string(I) + "-EX" << endl;
                     registerContents[rd] = registerContents[rs] - registerContents[rt];
                 }
                 else if(func == "101010")   // SLT
                 {
+                    C++;
+                    fout << "C#" + to_string(C) + " I" + to_string(I) + "-EX" << endl;
                     if(registerContents[rs] < registerContents[rt])
                     {
                         registerContents[rd] = 1;
@@ -184,21 +228,33 @@ int main(int argc, char* argv[])
                 
                 else if(opcode == "001000")    //  opcode for I-type ADDI
                 {
+                    C++;
+                    fout << "C#" + to_string(C) + " I" + to_string(I) + "-ID" << endl;  // instruction decode
                     int rs, rt, imm;
                     rs = stoi(binInstrucLine.substr(6, 5), 0, 2);
                     rt = stoi(binInstrucLine.substr(11, 5), 0, 2);
                     imm = stoi(binInstrucLine.substr(16, 16), 0, 2);
                     
+                    C++;
+                    fout << "C#" + to_string(C) + " I" + to_string(I) + "-EX" << endl;
                     registerContents[rd] = registerContents[rs] + imm;
+                    
+                    C++;
+                    fout << "C#" + to_string(C) + " I" + to_string(I) + "-WB" << endl;
                 }
                 
                 else if(opcode == "000100")     //  BEQ I-type instruction
                 {
+                    C++;
+                    fout << "C#" + to_string(C) + " I" + to_string(I) + "-ID" << endl;  // instruction decode
                     int rs, rt, imm;
                     rs = stoi(binInstrucLine.substr(6, 5), 0, 2);
                     rt = stoi(binInstrucLine.substr(11, 5), 0, 2);
                     imm = stoi(binInstrucLine.substr(16, 16), 0, 2);
                     
+                    
+                    C++;
+                    fout << "C#" + to_string(C) + " I" + to_string(I) + "-EX" << endl;
                 }
             }
         }
@@ -206,19 +262,26 @@ int main(int argc, char* argv[])
     }
     
     
+        fout << "REGISTERS" << endl;
+    for(int i = 0; i < 32; i++)
+    {
+        if(registerContents[i] == 0)
+            continue;
+        fout << "R" + to_string(i) + " ";
+        fout << registerContents[i] << endl;
+    }
     
-    
-    
-//    for(int i = 0; i < 32; i++)
-//    {
-//        cout << registerContents[i] << endl;
-//    }
-    
-    
-//        for(int i = 0; i < 249; i++)
-//        {
-//            cout << memoryCells[i] << endl;
-//        }
+        fout << endl;
+        
+        fout << "MEMORY" << endl;
+    for(int i = 0; i < 249; i++)
+    {
+        if(memoryCells[i] == 0)
+            continue;
+        fout << to_string(i) + " ";
+        fout << memoryCells[i] << endl;
+            
+    }
     
         cout << "Would you like to repeat? Enter '1' for YES, '0' for NO: " << endl;
         cin >> repeat;
