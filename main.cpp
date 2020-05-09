@@ -137,7 +137,7 @@ int main(int argc, char* argv[])
                 int rs, rt, imm;
                 rs = stoi(binInstrucLine.substr(6, 5), 0, 2);
                 rt = stoi(binInstrucLine.substr(11, 5), 0, 2);
-                imm = stoi(binInstrucLine.substr(16, 16), 0, 2);        //  implement later
+                imm = stoi(binInstrucLine.substr(16, 16), 0, 2);        //  implement
                 
                 C++;
                 fout << "C#" + to_string(C) + " I" + to_string(I) + "-EX" << endl;
@@ -157,7 +157,7 @@ int main(int argc, char* argv[])
                 int rs, rt, imm;
                 rs = stoi(binInstrucLine.substr(6, 5), 0, 2);
                 rt = stoi(binInstrucLine.substr(11, 5), 0, 2);
-                imm = stoi(binInstrucLine.substr(16, 16), 0, 2);        //  implement later
+                imm = stoi(binInstrucLine.substr(16, 16), 0, 2);        //  implement
                 
                 C++;
                 fout << "C#" + to_string(C) + " I" + to_string(I) + "-EX" << endl;
@@ -178,7 +178,7 @@ int main(int argc, char* argv[])
                 rd = stoi(binInstrucLine.substr(16, 5), 0, 2);
                 sa = binInstrucLine.substr(21, 5);
                 func = binInstrucLine.substr(26, 6);
-                //imm = stoi(binInstrucLine.substr(16, 16), 0, 2);        //  implement later
+                //imm = stoi(binInstrucLine.substr(16, 16), 0, 2);        //  implement
                 /*string q,w,e,r, t;
                 q = binInstrucLine.substr(6, 5);
                 w = binInstrucLine.substr(11, 5);
