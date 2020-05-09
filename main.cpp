@@ -34,28 +34,26 @@ int main(int argc, char* argv[])
     int repeat = 1;
     while(repeat){
     
-    string inputFilePath = "/Users/caleb/Development/MIPS-Processor-Project/MIPS-Processor-Project/input.txt";
-    string outputfile = "/Users/caleb/Development/MIPS-Processor-Project/MIPS-Processor-Project/output.txt";
+        string inputFilePath, outputFilePath;
+        //inputFilePath = "/Users/caleb/Development/MIPS-Processor-Project/MIPS-Processor-Project/input.txt";
+        //outputfile = "/Users/caleb/Development/MIPS-Processor-Project/MIPS-Processor-Project/output.txt";
 
-    /*
+    
     cout << "Please type the input file pathname exactly: " << endl;
     cin >> inputFilePath;
     cout << endl << inputFilePath << endl;
-    */
-    
-
-        /*
+        
         cout << "Please type the output file pathname exactly: " << endl;
         cin >> outputFilePath;
         cout << endl << outputFilePath << endl;
-        */
+        
         
         
     //open the input file & output file
     ifstream fin;
     fin.open(inputFilePath);
     ofstream fout;
-    fout.open(outputfile);
+    fout.open(outputFilePath);
     
     if (!fin)
     {
@@ -103,14 +101,11 @@ int main(int argc, char* argv[])
             didKeywordChange = true;
         }
         
-        //cout << "Keyword = " << keyword << endl;
-        
         if(keyword == "REGISTERS" && didKeywordChange == false)
         {
             // "R1 16"
             int regNum = stoi(parsedLine.substr(1,1));
             registerContents[regNum] = stoi(parsedLine.substr(3,4));
-            
         }
         else if(keyword == "MEMORY" && didKeywordChange == false)
         {
@@ -123,9 +118,6 @@ int main(int argc, char* argv[])
             int memContent = stoi(y);
             
             memoryCells[memAddress] = memContent;
-            
-            
-            
         }
         else if(keyword == "CODE"  && didKeywordChange == false)
         {
@@ -157,9 +149,7 @@ int main(int argc, char* argv[])
                 
                 C++;
                 fout << "C#" + to_string(C) + " I" + to_string(I) + "-WB" << endl;
-                
             }
-            
             else if(opcode == "101011")     // SW instruction
             {
                 C++;
@@ -177,7 +167,6 @@ int main(int argc, char* argv[])
                 C++;
                 fout << "C#" + to_string(C) + " I" + to_string(I) + "-MEM" << endl;
             }
-            
             else if(opcode == "000000")     // R-Type instruction
             {
                 C++;
@@ -211,6 +200,9 @@ int main(int argc, char* argv[])
                     C++;
                     fout << "C#" + to_string(C) + " I" + to_string(I) + "-EX" << endl;
                     registerContents[rd] = registerContents[rs] - registerContents[rt];
+                    
+                    C++;
+                    fout << "C#" + to_string(C) + " I" + to_string(I) + "-WB" << endl;
                 }
                 else if(func == "101010")   // SLT
                 {
@@ -225,7 +217,6 @@ int main(int argc, char* argv[])
                         registerContents[rt] = 0;
                     }
                 }
-                
                 else if(opcode == "001000")    //  opcode for I-type ADDI
                 {
                     C++;
@@ -242,7 +233,6 @@ int main(int argc, char* argv[])
                     C++;
                     fout << "C#" + to_string(C) + " I" + to_string(I) + "-WB" << endl;
                 }
-                
                 else if(opcode == "000100")     //  BEQ I-type instruction
                 {
                     C++;
@@ -252,7 +242,20 @@ int main(int argc, char* argv[])
                     rt = stoi(binInstrucLine.substr(11, 5), 0, 2);
                     imm = stoi(binInstrucLine.substr(16, 16), 0, 2);
                     
+                    //  BEQ EXECUTION
+                    C++;
+                    fout << "C#" + to_string(C) + " I" + to_string(I) + "-EX" << endl;
+                }
+                else if(opcode == "000101")     //  BNE I-type instruction
+                {
+                    C++;
+                    fout << "C#" + to_string(C) + " I" + to_string(I) + "-ID" << endl;  // instruction decode
+                    int rs, rt, imm;
+                    rs = stoi(binInstrucLine.substr(6, 5), 0, 2);
+                    rt = stoi(binInstrucLine.substr(11, 5), 0, 2);
+                    imm = stoi(binInstrucLine.substr(16, 16), 0, 2);
                     
+                    //  BNE EXECUTION
                     C++;
                     fout << "C#" + to_string(C) + " I" + to_string(I) + "-EX" << endl;
                 }
