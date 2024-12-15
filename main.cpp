@@ -22,7 +22,6 @@ string parseLine(string line)
     while(getline(iss, line, '\r')) // ditch the return character on the end
     {
         parsedLine += line;
-        //cout << parsedLine << endl;
     }
     return parsedLine;
 }
@@ -35,9 +34,6 @@ int main(int argc, char* argv[])
     while(repeat){
     
         string inputFilePath, outputFilePath;
-        //inputFilePath = "/Users/caleb/Development/MIPS-Processor-Project/MIPS-Processor-Project/input.txt";
-        //outputfile = "/Users/caleb/Development/MIPS-Processor-Project/MIPS-Processor-Project/output.txt";
-
     
     cout << "Please type the input file pathname exactly: " << endl;
     cin >> inputFilePath;
@@ -46,7 +42,6 @@ int main(int argc, char* argv[])
         cout << "Please type the output file pathname exactly: " << endl;
         cin >> outputFilePath;
         cout << endl << outputFilePath << endl;
-        
         
         
     //open the input file & output file
@@ -137,7 +132,7 @@ int main(int argc, char* argv[])
                 int rs, rt, imm;
                 rs = stoi(binInstrucLine.substr(6, 5), 0, 2);
                 rt = stoi(binInstrucLine.substr(11, 5), 0, 2);
-                imm = stoi(binInstrucLine.substr(16, 16), 0, 2);        //  implement
+                imm = stoi(binInstrucLine.substr(16, 16), 0, 2);     
                 
                 C++;
                 fout << "C#" + to_string(C) + " I" + to_string(I) + "-EX" << endl;
@@ -157,7 +152,7 @@ int main(int argc, char* argv[])
                 int rs, rt, imm;
                 rs = stoi(binInstrucLine.substr(6, 5), 0, 2);
                 rt = stoi(binInstrucLine.substr(11, 5), 0, 2);
-                imm = stoi(binInstrucLine.substr(16, 16), 0, 2);        //  implement
+                imm = stoi(binInstrucLine.substr(16, 16), 0, 2);    
                 
                 C++;
                 fout << "C#" + to_string(C) + " I" + to_string(I) + "-EX" << endl;
@@ -178,13 +173,6 @@ int main(int argc, char* argv[])
                 rd = stoi(binInstrucLine.substr(16, 5), 0, 2);
                 sa = binInstrucLine.substr(21, 5);
                 func = binInstrucLine.substr(26, 6);
-                //imm = stoi(binInstrucLine.substr(16, 16), 0, 2);        //  implement
-                /*string q,w,e,r, t;
-                q = binInstrucLine.substr(6, 5);
-                w = binInstrucLine.substr(11, 5);
-                e = binInstrucLine.substr(16, 5);
-                r = binInstrucLine.substr(21, 5);
-                t = binInstrucLine.substr(26, 6);*/
                 
                 if(func == "100000")        //  ADD function
                 {
@@ -291,7 +279,7 @@ int main(int argc, char* argv[])
         
     cout << endl << endl;
     }
-}   //  end main
+}  
 
 
 
